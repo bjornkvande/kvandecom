@@ -1,5 +1,12 @@
 import { Link } from 'gatsby'
+import { Svg } from "../components/icon"
+import Logo from "../icons/logo.svg"
 
-<Link to="/javascript">
-JavaScript Best Practices used in Trailguide
+<Link to="/javascript" className="text-green-100">
+	<div className="flex justify-center items-center bg-green-800 max-w-sm p-8 rounded shadow">
+		<span className="inline-block w-12 h-12 mr-4">
+			<Svg icon={Logo} />
+		</span>
+		Coding Practices used in Trailguide
+	</div>
 </Link>

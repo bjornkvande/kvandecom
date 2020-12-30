@@ -34,10 +34,12 @@ export function Layout(props) {
         siteTitle={data.site.siteMetadata.title}
         path={props.path}
       />
-      <div className={props.className || ""}>
-        <div className="p-12">{children}</div>
-        <Footer className={props.footer} />
+      <div className="flex justify-center">
+        <div className="p-12 w-3/4 max-w-3xl">
+          {children}
+        </div>
       </div>
+      <Footer />
     </>
   )
 }
