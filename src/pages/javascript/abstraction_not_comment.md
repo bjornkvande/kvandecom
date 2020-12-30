@@ -21,7 +21,7 @@ window.addEventListener('drop', files => controller.readDroppedFiles(files));
 Instead you should create a function with a good descriptive name.
 
 ```javascript
-function enableDragDropOfImagesFiles(controller) {
+function enableDragAndDropOfImagesFiles(controller) {
   window.addEventListener('dragover', preventDefault);
   window.addEventListener('dragenter', preventDefault);
   window.addEventListener('drop', files => controller.readDroppedFiles(files));
@@ -32,5 +32,5 @@ function enableDragDropOfImagesFiles(controller) {
 Then call that function. The comment is no longer needed.
 
 ```javascript
-enableDragDropOfImagesFiles(controller);
+enableDragAndDropOfImagesFiles(controller);
 ```
