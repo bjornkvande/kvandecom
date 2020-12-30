@@ -1,0 +1,56 @@
+html {
+  font-family: sans-serif;
+  font: 112.5%/1.45em georgia, serif;
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media only screen and (max-width: 480px) {
+  html {
+    font-size: 100%;
+  }
+}
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+a {
+  @apply .no-underline .text-blue-500;
+}
+
+img {
+  vertical-align: middle;
+}
+
+h1 {
+  @apply .text-4xl .font-sans .mt-6 mb-4 .font-medium .tracking-wide .leading-tight;
+}
+h2 {
+  @apply .text-3xl .font-sans .mt-4 mb-2 .font-medium .tracking-wide .leading-tight;
+}
+h3 {
+  @apply .text-2xl .font-sans .mt-4 mb-2 .font-normal .tracking-wide .leading-tight;
+}
+h4 {
+  @apply .text-lg .text-gray-900 .mb-4 .font-bold .leading-normal;
+}
+
+@media (min-width: 640px) {
+  h1 {
+    @apply .text-5xl;
+  }
+  h2 {
+    @apply .text-4xl;
+  }
+  h3 {
+    @apply .text-3xl;
+  }
+  h4 {
+    @apply .text-lg;
+  }
+}
