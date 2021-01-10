@@ -11,6 +11,9 @@
 ### Videos
 
 - [Traversy - JavaScript Higher Order Functions & Arrays](https://www.youtube.com/watch?v=rRgD1yVwIvE)
+- [Traversy - CSS Crash Course For Absolute Beginners](https://www.youtube.com/watch?v=yfoY53QXEnI)
+- [Traversy - Tailwind CSS Crash Course](https://www.youtube.com/watch?v=UBOj6rqRUME)
+- [Tailwind CSS - Rebuilding Twitter](https://www.youtube.com/watch?v=Pg_5Ni1_bg4)
 
 ## Other
 
