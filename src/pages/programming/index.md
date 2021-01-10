@@ -18,3 +18,4 @@
 ## Other
 
 - [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+- [Tailwind CSS](https://tailwindcss.com/)
