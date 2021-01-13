@@ -14,6 +14,7 @@
 - [Traversy - CSS Crash Course For Absolute Beginners](https://www.youtube.com/watch?v=yfoY53QXEnI)
 - [Traversy - Tailwind CSS Crash Course](https://www.youtube.com/watch?v=UBOj6rqRUME)
 - [Tailwind CSS - Rebuilding Twitter](https://www.youtube.com/watch?v=Pg_5Ni1_bg4)
+- [React Hooks Fundamentals](https://www.youtube.com/watch?v=XuFDcZABiDQ)
 
 ## Other
 
