@@ -18,4 +18,10 @@ import { Link } from 'gatsby'
 </Link>
 </li>
 
+<li>
+<Link to="/javascript/redgreenrefactor" className="text-gray-900">
+  Red, Green, Refactor - Write a test, then the code, then clean up.
+</Link>
+</li>
+
 </ol>
