@@ -4,6 +4,12 @@
 
 ## Modern Javascript Fundamentals
 
+### Resources
+
+- [Clean Code](https://github.com/ryanmcdermott/clean-code-javascript)
+- [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS)
+- [30 seconds of code](https://www.30secondsofcode.org/)
+
 ### Articles
 
 - [Destructuring: The Complete Guide](https://codeburst.io/es6-destructuring-the-complete-guide-7f842d08b98f)
