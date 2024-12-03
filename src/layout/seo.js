@@ -1,5 +1,5 @@
 /**
- * SEO component that queries for data with
+ * Seo component that queries for data with
  *  Gatsby's useStaticQuery React hook
  *
  * See: https://www.gatsbyjs.org/docs/use-static-query/
@@ -10,9 +10,8 @@ import PropTypes from "prop-types"
 import Helmet from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
 
-export function SEO(props) {
-  const { description, lang, title, page = {} } = props
-  const { heading, ingress } = page
+export default function Seo(props) {
+  const { description, lang, title, script } = props
 
   const { site } = useStaticQuery(
     graphql`
@@ -28,12 +27,6 @@ export function SEO(props) {
     `
   )
 
-  const body = bodyText(ingress, props.children)
-
-  // <meta property="og:url" content="{{ facebook_og.url }}" />
-  // <meta property="og:description" content="{{ facebook_og.description }}" />
-  // <meta property="og:image" content="{{ facebook_og.image }}" />
-
   const metaDescription = description || site.siteMetadata.description
 
   return (
@@ -42,43 +35,26 @@ export function SEO(props) {
       title={title}
       titleTemplate={`%s | ${site.siteMetadata.title}`}
       meta={[
-        { name: `description`, content: metaDescription },
-        { property: `og:title`, content: heading || title },
-        { property: `og:description`, content: body || metaDescription },
-        { property: `og:type`, content: `website` },
-        { name: `twitter:card`, content: `summary` },
-        { name: `twitter:creator`, content: site.siteMetadata.author },
-        { name: `twitter:title`, content: heading || title },
-        { name: `twitter:description`, content: body || metaDescription },
+        {
+          name: `description`,
+          content: metaDescription,
+        },
       ].concat()}
-    ></Helmet>
+    >
+      {script && <script async src={script} />}
+    </Helmet>
   )
 }
 
-SEO.defaultProps = {
+Seo.defaultProps = {
   lang: `en`,
   meta: [],
   description: ``,
 }
 
-SEO.propTypes = {
+Seo.propTypes = {
   description: PropTypes.string,
   lang: PropTypes.string,
   meta: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.string.isRequired,
-}
-
-function bodyText(ingress, children) {
-  if (Array.isArray(children)) {
-    const paragraphs = children
-      .filter(c => c.props && c.props.mdxType === "p")
-      .map(c => c.props.children)
-    const body = paragraphs.length ? paragraphs[0] : ""
-    return `
-      ${ingress}.
-      ${body}
-    `.trim()
-  } else {
-    return ""
-  }
 }

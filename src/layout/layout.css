@@ -7,10 +7,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media only screen and (max-width: 480px) {
-  html {
-    font-size: 100%;
+{
+  /* Not needed maybe
+  @media only screen and (max-width: 480px) {
+    html {
+      font-size: 100%;
+    }
   }
+*/
 }
 
 @tailwind base;
@@ -20,7 +24,21 @@ body {
 @tailwind utilities;
 
 a {
-  @apply .no-underline .text-blue-500;
+  @apply .no-underline .outline-none .text-blue-500;
+}
+
+button,
+button:focus,
+button:active,
+.btn,
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn.focus:active,
+.btn.active.focus {
+  outline: none;
+  outline: 0;
 }
 
 img {

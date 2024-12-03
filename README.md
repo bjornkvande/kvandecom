@@ -1,1 +1,0 @@
-https://kvande.com

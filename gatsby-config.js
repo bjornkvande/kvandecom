@@ -3,30 +3,26 @@ const path = require("path")
 
 module.exports = {
   siteMetadata: {
-    title: `Bjørn Jarle Kvande`,
-    description: `
-      Programmer at ObjectPlanet AS, and Trailguide AS.
-    `,
-    author: `@sjoggno`,
+    title: `kvande.com`,
+    description:
+      "Bjørn Jarle Kvande",
+    author: `@bjornjarlekvande`,
   },
   plugins: [
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `javascript`,
-        path: `${__dirname}/src/pages/javascript/`,
+        name: `pages`,
+        path: `${__dirname}/src/pages`,
       },
-    },
-    {
-      resolve: `gatsby-transformer-remark`,
-      options: { plugins: [{ resolve: `gatsby-remark-highlight-code` }] },
     },
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
-        extensions: [".mdx", ".md"],
-        defaultLayouts: { default: require.resolve("./src/layout/default.js") },
-        gatsbyRemarkPlugins: [{ resolve: `gatsby-remark-highlight-code` }],
+        extensions: [`.mdx`],
+        defaultLayouts: {
+          default: require.resolve("./src/layout/layout_blog.js"),
+        },
       },
     },
     {
@@ -50,5 +46,7 @@ module.exports = {
       },
     },
     `gatsby-plugin-react-helmet`,
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
   ],
 }
