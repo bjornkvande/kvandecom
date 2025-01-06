@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="px-4 py-8 mx-auto max-w-3xl">
       <div className="pt-16">
-        <h1 className="text-5xl my-4 text-center">Bjørn Jarle Kvande</h1>
+        <h1 className="text-center">Bjørn Jarle Kvande</h1>
       </div>
 
       <br />

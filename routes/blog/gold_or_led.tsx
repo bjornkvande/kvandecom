@@ -1,113 +1,154 @@
+import { BlogPage } from "../../components/BlogPage.tsx";
 import { Image } from "../../components/Image.tsx";
 
-export default function AutomatedTesting() {
+export default function Blog() {
   return (
-    <div>
-      <h1>Don't be fooled my smooth-talking founders!</h1>
+    <BlogPage
+      title="Don't be fooled by smooth-talking founders!"
+      date="16. June 2023"
+    >
+      <div>
+        <h2>
+          Would you rather have invested in a gold-plated piece of lead, or a
+          lead-plated piece of gold?
+        </h2>
 
-      author: Bjørn Jarle Kvande date: 2023-06-16
+        <br />
+        <br />
 
-      ### Would you rather have invested in a gold-plated piece of lead, or a
-      lead-plated piece of gold?
+        I am not an investor, but I am on the receiving side of the table as a
+        software and technology developer in the travel tech industry.
 
-      <br />
+        <br />
+        <br />
 
-      I am not an investor, but I am on the receiving side of the table as a
-      software and technology developer in the travel tech industry.
+        Being a person who is a lot more interrested in creating cool stuff than
+        talking about it, I am at times quite frustrated about the state of mind
+        of tech investors.
 
-      <br />
+        <br />
+        <br />
 
-      Being a person who is a lot more interrested in creating cool stuff than
-      talking about it, I am at times quite frustrated about the state of mind
-      of tech investors.
+        My question is this:
 
-      <br />
+        <br />
+        <br />
 
-      My question is this:
+        <strong>
+          "Would you rather have invested in a gold-plated piece of lead, or a
+          lead-plated piece of gold?"
+        </strong>
 
-      <br />
+        <br />
+        <br />
 
-      **"Would you rather have invested in a gold-plated piece of lead, or a
-      lead-plated piece of gold?"**.
+        Of course the answer is obvious when (after the fact) you discover the
+        piece of gold you invested in was actually a piece of lead when you
+        start polishing it. Not worth much, you end up with lead poisioning, and
+        it is too late.
 
-      <br />
+        <br />
+        <br />
+        <br />
 
-      Of course the answer is obvious when (after the fact) you discover the
-      piece of gold you invested in was actually a piece of lead when you start
-      polishing it. Not worth much, you end up with lead poisioning, and it is
-      too late.
+        <h4>Smooth-talking founders</h4>
+        <br />
+        I will argue that the <strong>gold-plated piece of lead</strong>{" "}
+        is the equivalent of an amazingly charismatic founder, selling a great
+        story to the investor, but not being able to back it up with a great
+        product.
 
-      <br />
-      <br />
+        <br />
+        <br />
 
-      #### Smooth-talking founders
+        Of course, the investor team should discover that this golden nugget
+        they are about to invest in is really crap during their due diligence
+        process.
 
-      I will argue that the **gold-plated piece of lead** is the equivalent of
-      an amazingly charismatic founder, selling a great story to the investor,
-      but not being able to back it up with a great product.
+        <br />
+        <br />
 
-      <br />
+        However, there are many examples of this not happening (for instance
+        Elisabeth Holmes of Theranos - in jail, Sam Bankman Fried of FTX - going
+        to jail soon, Adam Neuman of WeWork - has amazingly received new
+        funding).
 
-      Of course, the investor team should discover that this golden nugget they
-      are about to invest in is really crap during their due diligence process.
+        <br />
+        <br />
 
-      <br />
+        <strong>
+          Imagine all the money wasted on these investments due to those
+          charismatic founders and greedy tech investors afraid of loosing out
+          on the next big thing.
+        </strong>
 
-      However, there are many examples of this not happening (for instance
-      Elisabeth Holmes of Theranos - in jail, Sam Bankman Fried of FTX - going
-      to jail soon, Adam Neuman of WeWork - has amazingly received new funding).
+        <br />
+        <br />
+        <br />
 
-      <br />
+        <h4>Highly focused developers</h4>
+        <br />
+        The <strong>lead-plated piece of gold</strong>{" "}
+        is the equivalent of those highly focused developers sitting in front of
+        their computers creating great stuff which really brings value to
+        customers and users.
 
-      **Imagine all the money wasted on these investments due to those
-      charismatic founders and greedy tech investors afraid of loosing out on
-      the next big thing.**
+        <br />
+        <br />
 
-      <br />
-      <br />
+        These founders are seldom able to even reach the state of due dilligence
+        with an investor:
+        <br />
+        <br />
 
-      #### Highly focused developers
+        <ol className="list-decimal list-inside">
+          <li>
+            They tend to just continue programming and creating stuff, not
+            wanting to approach investors because they are not mentally able to
+            do it.
+          </li>
+          <br />
+          <li>
+            Only being able to speak about their tech stack, amazing code
+            quality, and the automatic testing rig they have set up, the
+            investor team will not be able to see past the stuttering developer
+            and give them a fair change
+          </li>
+        </ol>
 
-      The **lead-plated piece of gold** is the equivalent of those highly
-      focused developers sitting in front of their computers creating great
-      stuff which really brings value to customers and users.
+        <br />
 
-      <br />
+        <i>
+          I know, because I am one of those developers and founders. I
+          absolutely love programming and creating cool stuff. But I hate the
+          process of trying to sell it so much that I constantly go back to the
+          creative process of development (which will not pay your bills).
+        </i>
 
-      These founders are seldom able to even reach the state of due dilligence
-      with an investor:
+        <br />
+        <br />
 
-      1. They tend to just continue programming and creating stuff, not wanting
-      to approach investors because they are not mentally able to do it.
-      <br />
-      <br />
-      2. Only being able to speak about their tech stack, amazing code quality,
-      and the automatic testing rig they have set up, the investor team will not
-      be able to see past the stuttering developer and give them a fair change
+        <strong>
+          Imagine all the money that was never made and all those great products
+          and technologies that were lost because the projects never had a
+          chance to raise the capital they needed and deserved.
+        </strong>
 
-      <br />
+        <br />
+        <br />
 
-      _I know, because I am one of those developers and founders. I absolutely
-      love programming and creating cool stuff. But I hate the process of trying
-      to sell it so much that I constantly go back to the creative process of
-      development (which will not pay your bills)._
+        As an investor, which piece would you be left with after polishing it?
 
-      <br />
+        <br />
+        <br />
 
-      **Imagine all the money that was never made and all those great products
-      and technologies that were lost because the projects never had a chance to
-      raise the capital they needed and deserved.**
-
-      <br />
-
-      As an investor, which piece would you be left with after polishing it?
-
-      <div className="flex flex-wrap justify-center">
-        <Image src="coding/me_creating_stuff.jpg" />
-        <div className="italic text-gray-700 text-sm">
-          Me creating great stuff and not telling anyone about it in 1984
+        <div className="flex flex-wrap justify-center">
+          <Image src="coding/me_creating_stuff.jpg" />
+          <div className="italic text-gray-700 text-sm my-4">
+            Me creating great stuff and not telling anyone about it in 1984
+          </div>
         </div>
       </div>
-    </div>
+    </BlogPage>
   );
 }

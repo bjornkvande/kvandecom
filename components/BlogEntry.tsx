@@ -11,11 +11,11 @@ export function BlogEntry(
 ) {
   return (
     <div className="p-2 my-8 sm:p-8 sm:my-12 sm:rounded sm:bg-white sm:border border-gray-400 sm:shadow-md">
-      <h3 className="text-3xl text-gray-700 leading-10">{props.title}</h3>
+      <h3 className="text-gray-700 leading-10">{props.title}</h3>
 
       <a href={`/blog/${props.url}`}>
         <Image
-          className="w-56 ml-8 mt-8 rounded md:float-right"
+          className="w-56 ml-8 my-8 rounded md:float-right"
           src={props.image}
         />
       </a>
