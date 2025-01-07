@@ -19,14 +19,7 @@ function heatURL(type = "ride"): string {
   return `https://heatmap-external-b.strava.com/tiles-auth/${type}/hot`;
 }
 
-// this is used as a memory cache for the heat map tiles
-let _cache: { [key: string]: Uint8Array | ArrayBuffer } = {};
-function cache(tile: string): Uint8Array | ArrayBuffer | undefined {
-  if (Object.keys(_cache).length > 10000) {
-    _cache = {};
-  }
-  return _cache[tile];
-}
+const webCache = await caches.open("tile-cache");
 
 const HTTP_OK = 200;
 const HTTP_BAD_REQUEST = 400;
@@ -45,61 +38,71 @@ export async function handler(
 ): Promise<Response> {
   // TODO: should only allow requests from localhost, mtbmap, skigiude, and trailguide domains
 
+  // we use the deno web cache to cache tiles, they can safely be
+  // cached due to very infrequent changes to the heatmap tiles
+  const cachedResponse = await webCache.match(req);
+  if (cachedResponse) {
+    console.log("cache hit", req.url);
+    return cachedResponse;
+  }
+
+  // a tile is identified with x and y coordinates and a zoom level
+  // we also use a type parameter to specify biking, running, skiing, etc.
   const params = urlParams(req.url);
   if (params == null) {
     return new Response("Bad request", { status: HTTP_BAD_REQUEST });
   }
 
-  const { z, x, y, type, cookies } = urlParams(req.url) || {};
-
-  if (cookies === COOKIE_PASSWORD) {
+  // this is used by the trailguide.net server to get the
+  // latest cookies so it can load the tiles itself
+  if (params.cookies === COOKIE_PASSWORD) {
     const body = { POLICY, SIGNATURE };
     return Response.json(body);
   }
 
+  // for a valid request, we need the proper zoom level and coordinates
+  const { z, x, y, type } = params;
   if (!(isNumber(z) && isNumber(x) && isNumber(y))) {
     return new Response("Bad request", { status: HTTP_BAD_REQUEST });
   }
 
-  const tile = `${z}/${x}/${y}`;
-  const tile_id = `${type}/${tile}`;
-  if (cache(tile_id)) {
-    console.log("cache hit", tile_id);
-    const tile = cache(tile_id);
-    return new Response(tile, {
-      status: HTTP_OK,
-      headers: { "Content-Type": "image/png" },
-    });
-  }
-
   try {
+    // now we are ready to fetch the heatmap tile from the server
+    const tile = `${z}/${x}/${y}`;
+    console.log("fetch tile", req.url);
     const url = `${heatURL(type)}/${tile}.png` +
       `?Key-Pair-Id=${KEY_PAIR_ID}` +
       `&Signature=${SIGNATURE}&Policy=${POLICY}`;
-
-    const response = await fetch(url);
-    const { status, statusText } = response || {};
+    const heatMapResponse = await fetch(url);
+    const { status, statusText } = heatMapResponse || {};
 
     // it was not found, just return a transparent PNG
     if (status === HTTP_NOT_FOUND) {
-      // eslint-disable-next-line
-      _cache[tile_id] = TRANSPARENT_PNG;
-      return new Response(TRANSPARENT_PNG, {
+      const transparent = new Response(TRANSPARENT_PNG, {
         status: HTTP_OK,
         headers: { "Content-Type": "image/png" },
       });
+      await webCache.put(req, transparent.clone());
+      return transparent;
     }
 
+    // for whatever reason we could not get the tile, return an error,
+    // we really do not want to convey the error from the tile server
     if (status !== HTTP_OK) {
-      return new Response(statusText, { status });
+      console.log({ status, statusText });
+      return new Response("Internal server error", {
+        status: HTTP_INTERNAL_SERVER_ERROR,
+      });
     }
 
-    const image = await response.arrayBuffer();
-    _cache[tile_id] = image;
-    return new Response(image, {
+    // cache the image and return it
+    const image = await heatMapResponse.arrayBuffer();
+    const imageResponse = new Response(image, {
       status: HTTP_OK,
       headers: { "Content-Type": "image/png" },
     });
+    await webCache.put(req, imageResponse.clone());
+    return imageResponse;
   } catch (error) {
     // eslint-disable-next-line
     console.error(error);

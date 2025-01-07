@@ -32,5 +32,3 @@ jobs:
           project: "bjrnjarlekv-kvandecom-81"
           entrypoint: "main.ts"
           root: "."
-          
-          
