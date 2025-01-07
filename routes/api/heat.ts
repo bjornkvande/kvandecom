@@ -1,5 +1,4 @@
 import { decodeBase64 } from "jsr:@std/encoding/base64";
-import { FreshContext } from "$fresh/server.ts";
 
 // these need to be updated every 10 days or so
 const POLICY =
@@ -28,14 +27,51 @@ const HTTP_INTERNAL_SERVER_ERROR = 500;
 const webCache = await caches.open("tile-cache");
 
 /**
-  Example of call to this function
-  https://kvande.com/api/heat?z=12&x=1.234&y=5.678
+ * We limit access to the heatmap API to our own servers.
  */
-export async function handler(
-  req: Request,
-  _ctx: FreshContext,
-): Promise<Response> {
-  // TODO: only allow requests from localhost, mtbmap, skigiude, and trailguide domains
+const ALLOWED_DOMAINS = [
+  "localhost",
+  "kvande.com",
+  "sjogg.no",
+  "trailguide.net",
+  "trailguide.at",
+  "trailguide.dk",
+  "trailguide.es",
+  "trailguide.fr",
+  "trailguide.it",
+  "trailguide.no",
+  "trailguide.pl",
+  "trailguide.se",
+  "mtbmap.app",
+  "mtbmap.net",
+  "mtbmap.online",
+  "mtbmap.ch",
+  "mtbmap.dk",
+  "mtbmap.es",
+  "mtbmap.eu",
+  "mtbmap.pl",
+  "mtbmap.uk",
+  "our.guide",
+  "cyclemap.net",
+  "skiguide.app",
+  "topptur.app",
+  "topptur.guide",
+  "tourguide.ski",
+];
+
+/**
+ * This will respond with a heatmap tile in PNG format.
+ *
+ * Example of call to this api endpoint:
+ * https://kvande.com/api/heat?z=12&x=1.234&y=5.678
+ */
+export async function handler(req: Request): Promise<Response> {
+  // limit access to our own apps
+  const referer = req.headers.get("referer");
+  if (!isAllowedDomain(referer)) {
+    console.log("NOT ALLOWED FROM", referer);
+    return new Response("Bad request", { status: HTTP_BAD_REQUEST });
+  }
 
   // we use the deno web cache to cache tiles, they can safely be
   // cached due to very infrequent changes to the heatmap tiles
@@ -166,3 +202,16 @@ function isNumber(number?: string): boolean {
 const TRANSPARENT_PNG = decodeBase64(
   "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAED0lEQVR4nO3BMQEAAADCoPVPbQdvoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4DcC8AAB2WfxiAAAAABJRU5ErkJggg==",
 );
+
+/**
+ * Returns true if we are allowed to access the heatmap API.
+ *
+ * @param referer - https://sjogg.no/
+ */
+export function isAllowedDomain(referer: string | null): boolean {
+  if (referer == null) {
+    return false;
+  }
+  const url = new URL(referer);
+  return ALLOWED_DOMAINS.includes(url.hostname);
+}
