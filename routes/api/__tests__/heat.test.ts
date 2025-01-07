@@ -7,6 +7,7 @@ Deno.test("it should return true for valid domains", () => {
   expect(isAllowedDomain("https://sjogg.no/")).toBe(true);
   expect(isAllowedDomain("http://localhost:8000")).toBe(true);
   expect(isAllowedDomain("https://trailguide.net/")).toBe(true);
+  expect(isAllowedDomain("https://beta.trailguide.net/")).toBe(true);
   expect(isAllowedDomain("https://mtbmap.app/")).toBe(true);
   expect(isAllowedDomain("https://cyclemap.net/")).toBe(true);
   expect(isAllowedDomain("https://topptur.guide/")).toBe(true);

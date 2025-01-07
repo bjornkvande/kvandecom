@@ -34,6 +34,8 @@ const ALLOWED_DOMAINS = [
   "localhost",
   "kvande.com",
   "sjogg.no",
+  "beta.trailguide.net",
+  "www.trailguide.net",
   "trailguide.net",
   "trailguide.at",
   "trailguide.dk",
