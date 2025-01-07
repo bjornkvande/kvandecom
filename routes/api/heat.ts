@@ -30,6 +30,7 @@ const webCache = await caches.open("tile-cache");
  * We limit access to the heatmap API to our own servers.
  */
 const ALLOWED_DOMAINS = [
+  "127.0.0.1",
   "localhost",
   "kvande.com",
   "sjogg.no",
@@ -68,7 +69,7 @@ const ALLOWED_DOMAINS = [
 export async function handler(req: Request): Promise<Response> {
   // limit access to our own apps
   const referer = req.headers.get("referer");
-  if (!isAllowedDomain(referer)) {
+  if (referer && !isAllowedDomain(referer)) {
     console.log("NOT ALLOWED FROM", referer);
     return new Response("Bad request", { status: HTTP_BAD_REQUEST });
   }
