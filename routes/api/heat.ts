@@ -9,24 +9,23 @@ const SIGNATURE =
   "cG2z10ZVrU2~0T9L3VIJNR8sslSbSPvMomv-TJFwvYjx~0qFHSvnSpU3b0w15p5ueXlhyCOpdQPpNaa~VDHcS05OD03C6cXKK9z5uEIdaZtK8Uzv92XxjgxaOx85eLDOzcMVUYjzxmykxinqg4UmpzVg~Cvvbajgvv7zxknjJJoijDMazAT4jBOSu3Is-MyLmS~6MOAj7VmXCNRviNN9f58QPgXOZjUk50SYcTd8eeN9ii4sdC40KYuIwYXQOr5b0jclijDNqOGJKDYNHWSysZ-ZRXRsnFjz741Kk2QTz6DP48Shlw0DHw4S1s5e6GQ0U3raN7iR9Yz0IfmcxDSYbA__";
 
 const KEY_PAIR_ID = "APKAIDPUN4QMG7VUQPSA";
-
-/**
- * Returns the base URL to the heatmap tiles.
- *
- * @param type - ride, winter, run, water
- */
-function heatURL(type = "ride"): string {
-  return `https://heatmap-external-b.strava.com/tiles-auth/${type}/hot`;
-}
-
-const webCache = await caches.open("tile-cache");
+const COOKIE_PASSWORD = "HKGYGUUYTUIURDTOHJ";
 
 const HTTP_OK = 200;
 const HTTP_BAD_REQUEST = 400;
 const HTTP_NOT_FOUND = 404;
 const HTTP_INTERNAL_SERVER_ERROR = 500;
 
-const COOKIE_PASSWORD = "HKGYGUUYTUIURDTOHJ";
+/**
+ * This is used to cache the heatmap tiles. This way, it will improve performance, and it
+ * will still work if the cookies has expired or the heatmap server is down. However, we
+ * do not know how much the cache will fill up, or if it will cost us money down the road.
+ * from https://deno.com/blog/deploy-cache-api#cache-policy
+ * "By default, cached data is persisted for an indefinite period of time. While we
+ * periodically scan and delete inactive objects, an object is usually kept in cache
+ * for at least 30 days.""
+ */
+const webCache = await caches.open("tile-cache");
 
 /**
   Example of call to this function
@@ -36,7 +35,7 @@ export async function handler(
   req: Request,
   _ctx: FreshContext,
 ): Promise<Response> {
-  // TODO: should only allow requests from localhost, mtbmap, skigiude, and trailguide domains
+  // TODO: only allow requests from localhost, mtbmap, skigiude, and trailguide domains
 
   // we use the deno web cache to cache tiles, they can safely be
   // cached due to very infrequent changes to the heatmap tiles
@@ -113,11 +112,28 @@ export async function handler(
 }
 
 /**
+ * Returns the base URL to the heatmap tiles.
+ *
+ * @param type - ride, winter, run, water
+ */
+function heatURL(type = "ride"): string {
+  return `https://heatmap-external-b.strava.com/tiles-auth/${type}/hot`;
+}
+
+/**
+ * Gets the z, y, and y parameters for the tile request.
+ *
  * @param url - The URL to parse
  */
 function urlParams(
   url: string,
-): { z: string; x: string; y: string; type: string; cookies?: string } | null {
+): {
+  z: string; // the zoom level
+  x: string; // the x coordinate
+  y: string; // the y coordinate
+  type: string; // ride, run, winter, water
+  cookies?: string; // the password to get the cookies only
+} | null {
   const search = url.split?.("?")?.[1];
   if (search == null) {
     return null;
@@ -135,12 +151,18 @@ function urlParams(
   }
 }
 
+/**
+ * Just checks if the z, x, or y parameters are proper numbers.
+ */
 function isNumber(number?: string): boolean {
   if (number == null) return false;
   const parsed = parseInt(number);
   return typeof parsed === "number" && !isNaN(parsed);
 }
 
+/**
+ * This is reused to send a transparent PNG when the heatmap tile is not found.
+ */
 const TRANSPARENT_PNG = decodeBase64(
   "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAED0lEQVR4nO3BMQEAAADCoPVPbQdvoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4DcC8AAB2WfxiAAAAABJRU5ErkJggg==",
 );
