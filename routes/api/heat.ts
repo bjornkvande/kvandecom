@@ -8,7 +8,6 @@ const SIGNATURE =
   "cG2z10ZVrU2~0T9L3VIJNR8sslSbSPvMomv-TJFwvYjx~0qFHSvnSpU3b0w15p5ueXlhyCOpdQPpNaa~VDHcS05OD03C6cXKK9z5uEIdaZtK8Uzv92XxjgxaOx85eLDOzcMVUYjzxmykxinqg4UmpzVg~Cvvbajgvv7zxknjJJoijDMazAT4jBOSu3Is-MyLmS~6MOAj7VmXCNRviNN9f58QPgXOZjUk50SYcTd8eeN9ii4sdC40KYuIwYXQOr5b0jclijDNqOGJKDYNHWSysZ-ZRXRsnFjz741Kk2QTz6DP48Shlw0DHw4S1s5e6GQ0U3raN7iR9Yz0IfmcxDSYbA__";
 
 const KEY_PAIR_ID = "APKAIDPUN4QMG7VUQPSA";
-const COOKIE_PASSWORD = "HKGYGUUYTUIURDTOHJ";
 
 const HTTP_OK = 200;
 const HTTP_BAD_REQUEST = 400;
@@ -91,13 +90,6 @@ export async function handler(req: Request): Promise<Response> {
     return new Response("Bad request", { status: HTTP_BAD_REQUEST });
   }
 
-  // this is used by the trailguide.net server to get the
-  // latest cookies so it can load the tiles itself
-  if (params.cookies === COOKIE_PASSWORD) {
-    const body = { POLICY, SIGNATURE };
-    return Response.json(body);
-  }
-
   // for a valid request, we need the proper zoom level and coordinates
   const { z, x, y, type } = params;
   if (!(isNumber(z) && isNumber(x) && isNumber(y))) {
@@ -127,10 +119,9 @@ export async function handler(req: Request): Promise<Response> {
     // for whatever reason we could not get the tile, return an error,
     // we really do not want to convey the error from the tile server
     if (status !== HTTP_OK) {
-      console.log({ status, statusText });
-      return new Response("Internal server error", {
-        status: HTTP_INTERNAL_SERVER_ERROR,
-      });
+      const msg = "Internal server error " + status + " " + statusText;
+      console.log(msg);
+      return new Response(msg, { status: HTTP_INTERNAL_SERVER_ERROR });
     }
 
     // cache the image and return it
@@ -171,7 +162,6 @@ function urlParams(
   x: string; // the x coordinate
   y: string; // the y coordinate
   type: string; // ride, run, winter, water
-  cookies?: string; // the password to get the cookies only
 } | null {
   const search = url.split?.("?")?.[1];
   if (search == null) {
@@ -183,8 +173,7 @@ function urlParams(
     const x = params.get("x") as string;
     const y = params.get("y") as string;
     const type = params.get("type") || "ride";
-    const cookies = params.get("cookies") as string;
-    return { z, x, y, type, cookies };
+    return { z, x, y, type };
   } catch {
     return null;
   }
