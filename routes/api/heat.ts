@@ -79,7 +79,7 @@ export async function handler(req: Request): Promise<Response> {
   // cached due to very infrequent changes to the heatmap tiles
   const cachedResponse = await webCache.match(req);
   if (cachedResponse) {
-    console.log("cache hit", req.url);
+    // console.log("cache hit", req.url);
     return cachedResponse;
   }
 
@@ -87,19 +87,21 @@ export async function handler(req: Request): Promise<Response> {
   // we also use a type parameter to specify biking, running, skiing, etc.
   const params = urlParams(req.url);
   if (params == null) {
+    console.log("Bad request", req.url);
     return new Response("Bad request", { status: HTTP_BAD_REQUEST });
   }
 
   // for a valid request, we need the proper zoom level and coordinates
   const { z, x, y, type } = params;
   if (!(isNumber(z) && isNumber(x) && isNumber(y))) {
+    console.log("Bad request", req.url);
     return new Response("Bad request", { status: HTTP_BAD_REQUEST });
   }
 
   try {
     // now we are ready to fetch the heatmap tile from the server
     const tile = `${z}/${x}/${y}`;
-    console.log("fetch tile", req.url);
+    // console.log("fetch tile", req.url);
     const url = `${heatURL(type)}/${tile}.png` +
       `?Key-Pair-Id=${KEY_PAIR_ID}` +
       `&Signature=${SIGNATURE}&Policy=${POLICY}`;
@@ -116,12 +118,11 @@ export async function handler(req: Request): Promise<Response> {
       return transparent;
     }
 
-    // for whatever reason we could not get the tile, return an error,
-    // we really do not want to convey the error from the tile server
+    // for whatever reason we could not get the tile, return an error
     if (status !== HTTP_OK) {
       const msg = "Internal server error " + status + " " + statusText;
-      console.log(msg);
-      return new Response(msg, { status: HTTP_INTERNAL_SERVER_ERROR });
+      console.log(status, statusText);
+      return new Response(msg, { status });
     }
 
     // cache the image and return it
@@ -135,7 +136,7 @@ export async function handler(req: Request): Promise<Response> {
   } catch (error) {
     // eslint-disable-next-line
     console.error(error);
-    return new Response("Internal server error", {
+    return new Response("Internal server error " + error, {
       status: HTTP_INTERNAL_SERVER_ERROR,
     });
   }
