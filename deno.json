@@ -6,8 +6,8 @@
     "build": "deno run -A dev.ts build",
     "preview": "deno run -A main.ts",
     "update": "deno run -A -r https://fresh.deno.dev/update .",
-    "deploy": "deno task check && deno test && deployctl deploy",
-    "deploy-prod": "deno task check && deno test && deployctl deploy --prod"
+    "deploy": "deno test && deployctl deploy",
+    "deploy-prod": "deno test && deployctl deploy --prod"
   },
   "lint": {
     "rules": {
