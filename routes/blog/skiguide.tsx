@@ -12,8 +12,8 @@ export default function Blog() {
 
         <script>
           let js = document.createElement('script'); js.type =
-          'text/javascript'; js.src = 'http://skiguide.app/plugin.js'; js.async
-          = true; document.querySelector('head').appendChild(js);
+          'text/javascript'; js.src = '//skiguide.app/plugin.js'; js.async =
+          true; document.querySelector('head').appendChild(js);
         </script>
       </div>
     </BlogPage>
