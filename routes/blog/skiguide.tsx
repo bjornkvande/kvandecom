@@ -6,14 +6,15 @@ export default function Blog() {
       <div>
         <h2>Testing the skiguide plugin</h2>
 
-        <div className="my-20 border border-slate-200">
-          <skiguide-app />
-        </div>
+        <br />
+        <br />
+
+        <skiguide-app />
 
         <script>
           let js = document.createElement('script'); js.type =
-          'text/javascript'; js.src = '//skiguide.app/plugin.js'; js.async =
-          true; document.querySelector('head').appendChild(js);
+          'text/javascript'; js.src = 'https://skiguide.app/plugin.js'; js.async
+          = true; document.querySelector('head').appendChild(js);
         </script>
       </div>
     </BlogPage>
