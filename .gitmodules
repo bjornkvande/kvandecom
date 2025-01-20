@@ -1,0 +1,3 @@
+[submodule "kvande"]
+	path = kvande
+	url = https://github.com/bjornkvande/kvande
