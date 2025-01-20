@@ -6,19 +6,15 @@
     "build": "deno run -A dev.ts build",
     "preview": "deno run -A main.ts",
     "update": "deno run -A -r https://fresh.deno.dev/update .",
-    "deploy": "deno test && deployctl deploy",
-    "deploy-prod": "deno test && deployctl deploy --prod"
+    "test": "deno test routes/**/*.test.*",
+    "deploy": "deno task test && deployctl deploy",
+    "deploy-prod": "deno task test && deployctl deploy --prod"
   },
   "fmt": {
     "lineWidth": 90
   },
   "lint": {
-    "rules": {
-      "tags": [
-        "fresh",
-        "recommended"
-      ]
-    }
+    "rules": { "tags": ["fresh", "recommended"] }
   },
   "exclude": [
     "**/_fresh/*"
