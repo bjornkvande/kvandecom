@@ -9,6 +9,9 @@
     "deploy": "deno test && deployctl deploy",
     "deploy-prod": "deno test && deployctl deploy --prod"
   },
+  "fmt": {
+    "lineWidth": 90
+  },
   "lint": {
     "rules": {
       "tags": [
