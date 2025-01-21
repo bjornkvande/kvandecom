@@ -33,9 +33,10 @@ export async function handler(req: Request): Promise<Response> {
   // now get the snow forecast from the met.no API
   try {
     const snow = await fetch72HourForecast(parseFloat(lat), parseFloat(lng));
+    // response.headers.set("Access-Control-Allow-Origin", "https://your-client.example.com");
     return new Response(JSON.stringify(snow || {}), {
       status: HTTP_OK,
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
     });
   } catch (error) {
     // eslint-disable-next-line
@@ -92,7 +93,6 @@ async function fetch72HourForecast(
   } else {
     return null;
   }
-  // const sjoggForecasts = nonNullForecasts.map(toSjoggForecast);
 }
 
 /**
