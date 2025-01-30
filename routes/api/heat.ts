@@ -69,7 +69,9 @@ const ALLOWED_DOMAINS = [
  */
 export async function handler(req: Request): Promise<Response> {
   // limit access to our own apps
-  const referer = req.headers.get('referer');
+  const referer = req.headers.get('referer') || req.headers.get('referrer');
+  // TODO: pass in req.headers to isAllowedDomain and write tests
+  // for both referer and referrer
   if (!isAllowedDomain(referer)) {
     console.log('NOT ALLOWED FROM', referer);
     return new Response('Bad request', { status: HTTP_BAD_REQUEST });
