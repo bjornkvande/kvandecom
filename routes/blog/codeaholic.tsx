@@ -1,9 +1,9 @@
-import { BlogPage } from "../../components/BlogPage.tsx";
-import { Image } from "../../components/Image.tsx";
+import { BlogPage } from '../../components/BlogPage.tsx';
+import { Image } from '../../components/Image.tsx';
 
 export default function Blog() {
   return (
-    <BlogPage title="I'm a codeaholic" date="9. October 2024">
+    <BlogPage title="I'm a codeaholic" date='9. October 2024'>
       <div>
         <h2>My name is Bjørn and I'm a codeaholic!</h2>
 
@@ -15,7 +15,7 @@ export default function Blog() {
         <br />
         <br />
 
-        <ul className="list-disc list-inside">
+        <ul className='list-disc list-inside'>
           <li>I code because it makes me feel happy</li>
           <li>
             I code to experience pleasure and satisfaction
@@ -44,7 +44,7 @@ export default function Blog() {
         <br />
         <br />
 
-        <ul className="list-disc list-inside">
+        <ul className='list-disc list-inside'>
           <li>I choose to code instead of trying to sell my stuff</li>
           <li>I choose to code instead of meeting potential customers</li>
           <li>
@@ -66,7 +66,7 @@ export default function Blog() {
         <br />
         <br />
 
-        <ul className="list-disc list-inside">
+        <ul className='list-disc list-inside'>
           <li>I lie about how much I code</li>
           <li>I lie about how often I code</li>
           <li>I mostly code alone</li>
@@ -89,9 +89,9 @@ export default function Blog() {
         <br />
         <br />
 
-        <div className="flex flex-wrap justify-center">
-          <Image src="coding/codeaholics.jpg" />
-          <div className="italic text-gray-700 text-sm my-4">
+        <div className='flex flex-wrap justify-center'>
+          <Image src='coding/codeaholics.jpg' />
+          <div className='italic text-gray-700 text-sm my-4'>
             A fully booked meeting of introverted codeaholics anonymous
           </div>
         </div>

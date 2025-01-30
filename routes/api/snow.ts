@@ -1,9 +1,9 @@
-import { MetWeather, ThreeDayForecast } from "../../kvande/source/snow/types.ts";
-import { to72HourMetForecast } from "../../kvande/source/snow/met.ts";
+import { MetWeather, ThreeDayForecast } from '../../kvande/source/snow/types.ts';
+import { to72HourMetForecast } from '../../kvande/source/snow/met.ts';
 import {
   toDailyPrecipitationAndTemp,
   toSnowTimeSerie,
-} from "../../kvande/source/snow/snow.ts";
+} from '../../kvande/source/snow/snow.ts';
 
 const HTTP_OK = 200;
 const HTTP_BAD_REQUEST = 400;
@@ -19,15 +19,15 @@ export async function handler(req: Request): Promise<Response> {
   // get the lat/lng coordinates
   const params = urlParams(req.url);
   if (params == null) {
-    console.log("Bad request", req.url);
-    return new Response("Bad request", { status: HTTP_BAD_REQUEST });
+    console.log('Bad request', req.url);
+    return new Response('Bad request', { status: HTTP_BAD_REQUEST });
   }
 
   // make sure we have a valid request
   const { lat, lng } = params;
   if (!(isNumber(lat) && isNumber(lng))) {
-    console.log("Bad request", req.url);
-    return new Response("Bad request", { status: HTTP_BAD_REQUEST });
+    console.log('Bad request', req.url);
+    return new Response('Bad request', { status: HTTP_BAD_REQUEST });
   }
 
   // now get the snow forecast from the met.no API
@@ -36,12 +36,12 @@ export async function handler(req: Request): Promise<Response> {
     // response.headers.set("Access-Control-Allow-Origin", "https://your-client.example.com");
     return new Response(JSON.stringify(snow || {}), {
       status: HTTP_OK,
-      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
     });
   } catch (error) {
     // eslint-disable-next-line
     console.error(error);
-    return new Response("Internal server error " + error, {
+    return new Response('Internal server error ' + error, {
       status: HTTP_INTERNAL_SERVER_ERROR,
     });
   }
@@ -53,14 +53,14 @@ export async function handler(req: Request): Promise<Response> {
  * @param url - The URL to parse
  */
 function urlParams(url: string): { lat: string; lng: string } | null {
-  const search = url.split?.("?")?.[1];
+  const search = url.split?.('?')?.[1];
   if (search == null) {
     return null;
   }
   try {
     const params = new URLSearchParams(search);
-    const lat = params.get("lat") as string;
-    const lng = params.get("lng") as string;
+    const lat = params.get('lat') as string;
+    const lng = params.get('lng') as string;
     return { lat, lng };
   } catch {
     return null;
@@ -73,7 +73,7 @@ function urlParams(url: string): { lat: string; lng: string } | null {
 function isNumber(number?: string): boolean {
   if (number == null) return false;
   const parsed = parseInt(number);
-  return typeof parsed === "number" && !isNaN(parsed);
+  return typeof parsed === 'number' && !isNaN(parsed);
 }
 
 /**
@@ -110,7 +110,7 @@ async function fetchWeather(
   try {
     return await result.json();
   } catch (error) {
-    console.error("Could not fetch weather for location", latlng, error);
+    console.error('Could not fetch weather for location', latlng, error);
     return null;
   }
 }

@@ -1,12 +1,12 @@
-import { BlogPage } from "../../components/BlogPage.tsx";
-import { Image } from "../../components/Image.tsx";
+import { BlogPage } from '../../components/BlogPage.tsx';
+import { Image } from '../../components/Image.tsx';
 
 export default function Blog() {
   return (
     <BlogPage
-      title="Å investere i et programvareselskap"
-      ingress="Jævla bra gründer eller jævla bra produkt?"
-      date="6. Februar 2023"
+      title='Å investere i et programvareselskap'
+      ingress='Jævla bra gründer eller jævla bra produkt?'
+      date='6. Februar 2023'
     >
       <div>
         <h3>
@@ -22,7 +22,7 @@ export default function Blog() {
         <br />
         <br />
 
-        I artikkelen sier han rett ut at{" "}
+        I artikkelen sier han rett ut at{' '}
         <strong>
           "Det er bedre å investere i et middels bra produkt, men med en jævla dyktig
           gründer, enn et veldig bra produkt og en middelmådig gründer"
@@ -45,7 +45,7 @@ export default function Blog() {
         <br />
         <br />
 
-        <Image src="/coding/kakediagram.png" />
+        <Image src='/coding/kakediagram.png' />
 
         <br />
         <br />
@@ -102,8 +102,8 @@ export default function Blog() {
 
         Nye funksjoner som aldri kommer fordi det eksisterende systemet er umulig å
         videreutvikle, og utviklingen av det nye systemet stopper opp fordi man går tom
-        for penger.{" "}
-        <a href="automatisert_testing">
+        for penger.{' '}
+        <a href='automatisert_testing'>
           (les mer om hvordan dette kan unngås her...)
         </a>
 
@@ -167,7 +167,7 @@ export default function Blog() {
         <br />
         <br />
 
-        <div className="text-4xl text-gray-700 mt-8 italics text-center bg-gray-200 px-8 py-6 rounded shadow-md">
+        <div className='text-4xl text-gray-700 mt-8 italics text-center bg-gray-200 px-8 py-6 rounded shadow-md'>
           Det er på tide investorer ser muligheten i å investere i jævla bra produkter
           laget av fantastiske utviklere!
         </div>

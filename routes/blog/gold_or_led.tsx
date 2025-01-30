@@ -1,11 +1,11 @@
-import { BlogPage } from "../../components/BlogPage.tsx";
-import { Image } from "../../components/Image.tsx";
+import { BlogPage } from '../../components/BlogPage.tsx';
+import { Image } from '../../components/Image.tsx';
 
 export default function Blog() {
   return (
     <BlogPage
       title="Don't be fooled by smooth-talking founders!"
-      date="16. June 2023"
+      date='16. June 2023'
     >
       <div>
         <h2>
@@ -52,7 +52,7 @@ export default function Blog() {
 
         <h4>Smooth-talking founders</h4>
         <br />
-        I will argue that the <strong>gold-plated piece of lead</strong>{" "}
+        I will argue that the <strong>gold-plated piece of lead</strong>{' '}
         is the equivalent of an amazingly charismatic founder, selling a great story to
         the investor, but not being able to back it up with a great product.
 
@@ -83,7 +83,7 @@ export default function Blog() {
 
         <h4>Highly focused developers</h4>
         <br />
-        The <strong>lead-plated piece of gold</strong>{" "}
+        The <strong>lead-plated piece of gold</strong>{' '}
         is the equivalent of those highly focused developers sitting in front of their
         computers creating great stuff which really brings value to customers and users.
 
@@ -95,7 +95,7 @@ export default function Blog() {
         <br />
         <br />
 
-        <ol className="list-decimal list-inside">
+        <ol className='list-decimal list-inside'>
           <li>
             They tend to just continue programming and creating stuff, not wanting to
             approach investors because they are not mentally able to do it.
@@ -134,9 +134,9 @@ export default function Blog() {
         <br />
         <br />
 
-        <div className="flex flex-wrap justify-center">
-          <Image src="coding/me_creating_stuff.jpg" />
-          <div className="italic text-gray-700 text-sm my-4">
+        <div className='flex flex-wrap justify-center'>
+          <Image src='coding/me_creating_stuff.jpg' />
+          <div className='italic text-gray-700 text-sm my-4'>
             Me creating great stuff and not telling anyone about it in 1984
           </div>
         </div>

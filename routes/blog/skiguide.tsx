@@ -1,8 +1,8 @@
-import { BlogPage } from "../../components/BlogPage.tsx";
+import { BlogPage } from '../../components/BlogPage.tsx';
 
 export default function Blog() {
   return (
-    <BlogPage title="Skiguide" date="14. January 2025">
+    <BlogPage title='Skiguide' date='14. January 2025'>
       <div>
         <h2>Testing the skiguide plugin</h2>
 

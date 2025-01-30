@@ -1,13 +1,13 @@
-import { decodeBase64 } from "jsr:@std/encoding/base64";
+import { decodeBase64 } from 'jsr:@std/encoding/base64';
 
 // these need to be updated every 10 days or so
 const POLICY =
-  "eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vaGVhdG1hcC1leHRlcm5hbC0qLnN0cmF2YS5jb20vKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTczOTAwMTk3OH0sIkRhdGVHcmVhdGVyVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzM3Nzc3OTc4fX19XX0_";
+  'eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vaGVhdG1hcC1leHRlcm5hbC0qLnN0cmF2YS5jb20vKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTczOTAwMTk3OH0sIkRhdGVHcmVhdGVyVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzM3Nzc3OTc4fX19XX0_';
 
 const SIGNATURE =
-  "DqijVUSdimQ8D-lCHirlKRja0ycLUKGfg8kodcj~~MgsmPZyULZI7IArJhRH8UyeWXCArdocoXdfOzecc3ZEDVwtrIIdzrKrvaUB0W8hatWiKSFoSvAlG5OAceikzg3YNhVkrbrIcQqrSOMbR9PMCcZgxEBOCrA7pILgJgybBDpUFLKXR17CquGE0F2DG1b-DcF0Z~kUlakZ4ry7NLDwvw2GUJSAENpe6jVVebIGjfnHP7HYid6MW10TMY0PTy-DDGGWnp92DdhddPfo0KSNRrXAjN0NdhnJx6YEtrgTwacZmbmclnSC5DHljrBcZVFF5l~TV1RoJIrtrl2SHOggEg__";
+  'DqijVUSdimQ8D-lCHirlKRja0ycLUKGfg8kodcj~~MgsmPZyULZI7IArJhRH8UyeWXCArdocoXdfOzecc3ZEDVwtrIIdzrKrvaUB0W8hatWiKSFoSvAlG5OAceikzg3YNhVkrbrIcQqrSOMbR9PMCcZgxEBOCrA7pILgJgybBDpUFLKXR17CquGE0F2DG1b-DcF0Z~kUlakZ4ry7NLDwvw2GUJSAENpe6jVVebIGjfnHP7HYid6MW10TMY0PTy-DDGGWnp92DdhddPfo0KSNRrXAjN0NdhnJx6YEtrgTwacZmbmclnSC5DHljrBcZVFF5l~TV1RoJIrtrl2SHOggEg__';
 
-const KEY_PAIR_ID = "APKAIDPUN4QMG7VUQPSA";
+const KEY_PAIR_ID = 'APKAIDPUN4QMG7VUQPSA';
 
 const HTTP_OK = 200;
 const HTTP_BAD_REQUEST = 400;
@@ -23,42 +23,42 @@ const HTTP_INTERNAL_SERVER_ERROR = 500;
  * periodically scan and delete inactive objects, an object is usually kept in cache
  * for at least 30 days.""
  */
-const webCache = await caches.open("tile-cache");
+const webCache = await caches.open('tile-cache');
 
 /**
  * We limit access to the heatmap API to our own servers.
  */
 const ALLOWED_DOMAINS = [
-  "127.0.0.1",
-  "localhost",
-  "kvande.com",
-  "sjogg.no",
-  "beta.trailguide.net",
-  "www.trailguide.net",
-  "trailguide.net",
-  "trailguide.at",
-  "trailguide.dk",
-  "trailguide.es",
-  "trailguide.fr",
-  "trailguide.it",
-  "trailguide.no",
-  "trailguide.pl",
-  "trailguide.se",
-  "mtbmap.app",
-  "mtbmap.net",
-  "mtbmap.online",
-  "mtbmap.ch",
-  "mtbmap.dk",
-  "mtbmap.es",
-  "mtbmap.eu",
-  "mtbmap.pl",
-  "mtbmap.uk",
-  "our.guide",
-  "cyclemap.net",
-  "skiguide.app",
-  "topptur.app",
-  "topptur.guide",
-  "tourguide.ski",
+  '127.0.0.1',
+  'localhost',
+  'kvande.com',
+  'sjogg.no',
+  'beta.trailguide.net',
+  'www.trailguide.net',
+  'trailguide.net',
+  'trailguide.at',
+  'trailguide.dk',
+  'trailguide.es',
+  'trailguide.fr',
+  'trailguide.it',
+  'trailguide.no',
+  'trailguide.pl',
+  'trailguide.se',
+  'mtbmap.app',
+  'mtbmap.net',
+  'mtbmap.online',
+  'mtbmap.ch',
+  'mtbmap.dk',
+  'mtbmap.es',
+  'mtbmap.eu',
+  'mtbmap.pl',
+  'mtbmap.uk',
+  'our.guide',
+  'cyclemap.net',
+  'skiguide.app',
+  'topptur.app',
+  'topptur.guide',
+  'tourguide.ski',
 ];
 
 /**
@@ -69,10 +69,10 @@ const ALLOWED_DOMAINS = [
  */
 export async function handler(req: Request): Promise<Response> {
   // limit access to our own apps
-  const referer = req.headers.get("referer");
+  const referer = req.headers.get('referer');
   if (!isAllowedDomain(referer)) {
-    console.log("NOT ALLOWED FROM", referer);
-    return new Response("Bad request", { status: HTTP_BAD_REQUEST });
+    console.log('NOT ALLOWED FROM', referer);
+    return new Response('Bad request', { status: HTTP_BAD_REQUEST });
   }
 
   // we use the deno web cache to cache tiles, they can safely be
@@ -87,15 +87,15 @@ export async function handler(req: Request): Promise<Response> {
   // we also use a type parameter to specify biking, running, skiing, etc.
   const params = urlParams(req.url);
   if (params == null) {
-    console.log("Bad request", req.url);
-    return new Response("Bad request", { status: HTTP_BAD_REQUEST });
+    console.log('Bad request', req.url);
+    return new Response('Bad request', { status: HTTP_BAD_REQUEST });
   }
 
   // for a valid request, we need the proper zoom level and coordinates
   const { z, x, y, type } = params;
   if (!(isNumber(z) && isNumber(x) && isNumber(y))) {
-    console.log("Bad request", req.url);
-    return new Response("Bad request", { status: HTTP_BAD_REQUEST });
+    console.log('Bad request', req.url);
+    return new Response('Bad request', { status: HTTP_BAD_REQUEST });
   }
 
   try {
@@ -112,7 +112,7 @@ export async function handler(req: Request): Promise<Response> {
     if (status === HTTP_NOT_FOUND) {
       const transparent = new Response(TRANSPARENT_PNG, {
         status: HTTP_OK,
-        headers: { "Content-Type": "image/png" },
+        headers: { 'Content-Type': 'image/png' },
       });
       await webCache.put(req, transparent.clone());
       return transparent;
@@ -120,7 +120,7 @@ export async function handler(req: Request): Promise<Response> {
 
     // for whatever reason we could not get the tile, return an error
     if (status !== HTTP_OK) {
-      const msg = "Internal server error " + status + " " + statusText;
+      const msg = 'Internal server error ' + status + ' ' + statusText;
       console.log(status, statusText);
       return new Response(msg, { status });
     }
@@ -129,14 +129,14 @@ export async function handler(req: Request): Promise<Response> {
     const image = await heatMapResponse.arrayBuffer();
     const imageResponse = new Response(image, {
       status: HTTP_OK,
-      headers: { "Content-Type": "image/png" },
+      headers: { 'Content-Type': 'image/png' },
     });
     await webCache.put(req, imageResponse.clone());
     return imageResponse;
   } catch (error) {
     // eslint-disable-next-line
     console.error(error);
-    return new Response("Internal server error " + error, {
+    return new Response('Internal server error ' + error, {
       status: HTTP_INTERNAL_SERVER_ERROR,
     });
   }
@@ -147,7 +147,7 @@ export async function handler(req: Request): Promise<Response> {
  *
  * @param type - ride, winter, run, water
  */
-function heatURL(type = "ride"): string {
+function heatURL(type = 'ride'): string {
   return `https://heatmap-external-b.strava.com/tiles-auth/${type}/hot`;
 }
 
@@ -164,16 +164,16 @@ function urlParams(
   y: string; // the y coordinate
   type: string; // ride, run, winter, water
 } | null {
-  const search = url.split?.("?")?.[1];
+  const search = url.split?.('?')?.[1];
   if (search == null) {
     return null;
   }
   try {
     const params = new URLSearchParams(search);
-    const z = params.get("z") as string;
-    const x = params.get("x") as string;
-    const y = params.get("y") as string;
-    const type = params.get("type") || "ride";
+    const z = params.get('z') as string;
+    const x = params.get('x') as string;
+    const y = params.get('y') as string;
+    const type = params.get('type') || 'ride';
     return { z, x, y, type };
   } catch {
     return null;
@@ -186,14 +186,14 @@ function urlParams(
 function isNumber(number?: string): boolean {
   if (number == null) return false;
   const parsed = parseInt(number);
-  return typeof parsed === "number" && !isNaN(parsed);
+  return typeof parsed === 'number' && !isNaN(parsed);
 }
 
 /**
  * This is reused to send a transparent PNG when the heatmap tile is not found.
  */
 const TRANSPARENT_PNG = decodeBase64(
-  "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAED0lEQVR4nO3BMQEAAADCoPVPbQdvoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4DcC8AAB2WfxiAAAAABJRU5ErkJggg==",
+  'iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAED0lEQVR4nO3BMQEAAADCoPVPbQdvoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4DcC8AAB2WfxiAAAAABJRU5ErkJggg==',
 );
 
 /**

@@ -1,12 +1,12 @@
-import { BlogPage } from "../../components/BlogPage.tsx";
-import { Image } from "../../components/Image.tsx";
+import { BlogPage } from '../../components/BlogPage.tsx';
+import { Image } from '../../components/Image.tsx';
 
 export default function Blog() {
   return (
     <BlogPage
-      title="Automatisert testing"
-      ingress="Og hva er det egentlig som er viktigst?"
-      date="2. Februar 2023"
+      title='Automatisert testing'
+      ingress='Og hva er det egentlig som er viktigst?'
+      date='2. Februar 2023'
     >
       <div>
         <h3>Hvorfor er gode automatiserte tester så viktig?</h3>
@@ -40,7 +40,7 @@ export default function Blog() {
         <br />
         <br />
 
-        Hva er viktig for å lykkes med test-driven development, og hva er det som{" "}
+        Hva er viktig for å lykkes med test-driven development, og hva er det som{' '}
         <strong>egentlig</strong> er det viktigste med automatisert testing.
 
         <br />
@@ -139,7 +139,7 @@ export default function Blog() {
         <br />
         <br />
 
-        <Image src="/news/test-suites-passed.png" />
+        <Image src='/news/test-suites-passed.png' />
 
         <br />
         <br />
@@ -155,7 +155,7 @@ export default function Blog() {
         <br />
         <br />
 
-        Men hva er det som <strong>egentlig</strong>{" "}
+        Men hva er det som <strong>egentlig</strong>{' '}
         er det viktigste med automatisert testing i et langvarig utviklingsprosjekt?
 
         <br />
@@ -232,7 +232,7 @@ export default function Blog() {
         <br />
         <br />
 
-        Og jeg deployer <strong>alltid</strong>{" "}
+        Og jeg deployer <strong>alltid</strong>{' '}
         på en fredag ettermiddag. Kan du gjøre det?
       </div>
     </BlogPage>
