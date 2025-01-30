@@ -156,9 +156,7 @@ function heatURL(type = 'ride'): string {
  *
  * @param url - The URL to parse
  */
-function urlParams(
-  url: string,
-): {
+function urlParams(url: string): {
   z: string; // the zoom level
   x: string; // the x coordinate
   y: string; // the y coordinate
