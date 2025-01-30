@@ -9,8 +9,8 @@ export default function Blog() {
 
         <br />
 
-        People call me a founder and an entrepreneur. I am not. I am just a guy
-        who likes to code and make stuff. I am a true codeaholic.
+        People call me a founder and an entrepreneur. I am not. I am just a guy who likes
+        to code and make stuff. I am a true codeaholic.
 
         <br />
         <br />
@@ -53,8 +53,7 @@ export default function Blog() {
           <li>I choose to code instead of doing marketing</li>
           <li>I choose to code instead of sending out invoices</li>
           <li>
-            I choose to code long into the night even though I know it hurts my
-            sleep
+            I choose to code long into the night even though I know it hurts my sleep
           </li>
           <li>I choose to code instead of hanging with friends</li>
         </ul>

@@ -9,12 +9,16 @@ export default function Blog() {
         <br />
         <br />
 
+        {/* @ts-expect-error - this is our skiguide app plugin */}
         <skiguide-app />
 
+        {/* deno-fmt-ignore */}
         <script>
-          let js = document.createElement('script'); js.type =
-          'text/javascript'; js.src = 'https://skiguide.app/plugin.js'; js.async
-          = true; document.querySelector('head').appendChild(js);
+          let js = document.createElement('script'); 
+          js.type = 'text/javascript'; 
+          js.src = 'https://skiguide.app/plugin.js'; 
+          js.async = true;
+          document.querySelector('head').appendChild(js);
         </script>
       </div>
     </BlogPage>
