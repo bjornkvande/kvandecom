@@ -73,7 +73,11 @@ export async function handler(req: Request): Promise<Response> {
   // TODO: pass in req.headers to isAllowedDomain and write tests
   // for both referer and referrer
   if (!isAllowedDomain(referer)) {
-    console.log('NOT ALLOWED FROM', referer);
+    const host = req.headers.get('host');
+    const origin = req.headers.get('origin');
+    const from = req.headers.get('from');
+    const url = req.url;
+    console.log('NOT ALLOWED FROM', { referer, host, origin, from, url });
     return new Response('Bad request', { status: HTTP_BAD_REQUEST });
   }
 
