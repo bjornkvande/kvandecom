@@ -25,6 +25,10 @@ const HTTP_INTERNAL_SERVER_ERROR = 500;
  */
 const webCache = await caches.open('tile-cache');
 
+const ALLOWED_SKIGUIDE_PLUGIN_DOMAINS = [
+  'trailguide.no',
+];
+
 /**
  * We limit access to the heatmap API to our own servers.
  */
@@ -41,7 +45,6 @@ const ALLOWED_DOMAINS = [
   'trailguide.es',
   'trailguide.fr',
   'trailguide.it',
-  'trailguide.no',
   'trailguide.pl',
   'trailguide.se',
   'mtbmap.app',
@@ -56,9 +59,9 @@ const ALLOWED_DOMAINS = [
   'our.guide',
   'cyclemap.net',
   'skiguide.app',
-  'topptur.app',
   'topptur.guide',
-  'tourguide.ski',
+  'topptur.app',
+  ...ALLOWED_SKIGUIDE_PLUGIN_DOMAINS,
 ];
 
 /**
@@ -77,7 +80,7 @@ export async function handler(req: Request): Promise<Response> {
     const origin = req.headers.get('origin');
     const from = req.headers.get('from');
     const url = req.url;
-    console.log('NOT ALLOWED FROM', { referer, host, origin, from, url });
+    console.warn('NOT ALLOWED FROM', { referer, host, origin, from, url });
     return new Response('Bad request', { status: HTTP_BAD_REQUEST });
   }
 
@@ -93,14 +96,14 @@ export async function handler(req: Request): Promise<Response> {
   // we also use a type parameter to specify biking, running, skiing, etc.
   const params = urlParams(req.url);
   if (params == null) {
-    console.log('Bad request', req.url);
+    console.warn('Bad request', req.url);
     return new Response('Bad request', { status: HTTP_BAD_REQUEST });
   }
 
   // for a valid request, we need the proper zoom level and coordinates
   const { z, x, y, type } = params;
   if (!(isNumber(z) && isNumber(x) && isNumber(y))) {
-    console.log('Bad request', req.url);
+    console.warn('Bad request', req.url);
     return new Response('Bad request', { status: HTTP_BAD_REQUEST });
   }
 
@@ -127,7 +130,7 @@ export async function handler(req: Request): Promise<Response> {
     // for whatever reason we could not get the tile, return an error
     if (status !== HTTP_OK) {
       const msg = 'Internal server error ' + status + ' ' + statusText;
-      console.log(status, statusText);
+      console.warn(status, statusText);
       return new Response(msg, { status });
     }
 
