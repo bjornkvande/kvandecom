@@ -26,7 +26,7 @@ const HTTP_INTERNAL_SERVER_ERROR = 500;
 const webCache = await caches.open('tile-cache');
 
 const ALLOWED_SKIGUIDE_PLUGIN_DOMAINS = [
-  'trailguide.no',
+  'nordnorge.com',
 ];
 
 /**
