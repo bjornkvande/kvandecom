@@ -1,13 +1,14 @@
 import { decodeBase64 } from 'jsr:@std/encoding/base64';
 
 // these need to be updated every 10 days or so
-const POLICY =
-  'eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vKmNvbnRlbnQtKi5zdHJhdmEuY29tL2lkZW50aWZpZWQvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc0MzY2NjgwMn19fV19';
+// const POLICY =
+//   'eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vKmNvbnRlbnQtKi5zdHJhdmEuY29tL2lkZW50aWZpZWQvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc0NDQ0MTIwNH19fV19';
 
-const SIGNATURE =
-  'VWlFJH6p-pq0HEvHAu4yp5TjqvO8hekddDFWN7Lp6Ijy4avc8w3yto3~mgn7muRND02~tFpi3zaUMIjTw~mLcBj2CPQ4G5eDYU4fsg8KI1kxquY~Vzm5GQ1nE7s52ueV6KMHd5-vseBiRRtGUGaMDFxvQnrzxCTLpjtHU~J-9pImUSVHDBKHJOunpSzyu6OCkIK3vcgx0ESp-aNRX3scS6gJV0Kv6wrR~Y5~doYHYWCT8UkMoslCb9vt~KJmuQqeuQncly6t9wk6w4xK7qCQT8Xi2fKRp4JfLh~tPw1M-rdRJXW6FJ5r02YZc35zygJ0usAhplbK2kvXimSx5T2x8w__';
+// const SIGNATURE =
+//   'PBf9W4pZHKlhYTMp2DUAYGxpWT5qR~h7KSJe3UIEfL8Dxd09VzaECpPUrdXfTxasPZqzfre9vnRlxu3t7KEjRuCXWGcRpOMuYxp4x1ItSueNGo7OEKXJqAT9qigqnUlM2z6Tpnz0PoJ6MqpT3wu57iyNuqFoPxz5YROxpIPv8oKZv~-Ysr5MdspnDzrlvIQ-8mK5qyDciCeWhIhrRK8-r6P~IYnKtxJFKuHAlY-obkIk8k7LFwkNlfzS4KvM9Dj0-aXrARCm86lv5j9WOVbWemY9O9Vg3~xRCv26L54U1CSLpG425lwLVdXTkbnYjFukrvsg1Ixx1Bo8ddUJsGlHRw__';
 
-const KEY_PAIR_ID = 'APKAIDPUN4QMG7VUQPSA';
+// const KEY_PAIR_ID = 'APKAIDPUN4QMG7VUQPSA';
+// const KEY_PAIR_ID = 'K3VK9UFQYD04PI';
 
 const HTTP_OK = 200;
 const HTTP_BAD_REQUEST = 400;
@@ -101,7 +102,8 @@ export async function handler(req: Request): Promise<Response> {
   }
 
   // for a valid request, we need the proper zoom level and coordinates
-  const { z, x, y, type } = params;
+  // const { z, x, y, type } = params;
+  const { z, x, y } = params;
   if (!(isNumber(z) && isNumber(x) && isNumber(y))) {
     console.warn('Bad request', req.url);
     return new Response('Bad request', { status: HTTP_BAD_REQUEST });
@@ -110,10 +112,11 @@ export async function handler(req: Request): Promise<Response> {
   try {
     // now we are ready to fetch the heatmap tile from the server
     const tile = `${z}/${x}/${y}`;
-    // console.log("fetch tile", req.url);
-    const url = `${heatURL(type)}/${tile}.png` +
-      `?Key-Pair-Id=${KEY_PAIR_ID}` +
-      `&Signature=${SIGNATURE}&Policy=${POLICY}`;
+    // console.log('fetch tile', req.url);
+    const url = `https://strava-heatmap.tiles.freemap.sk/ride/red/${tile}.png`;
+    // const url = `${heatURL(type)}/${tile}.png` +
+    //   `?Key-Pair-Id=${KEY_PAIR_ID}` +
+    //   `&Signature=${SIGNATURE}&Policy=${POLICY}`;
     const heatMapResponse = await fetch(url);
     const { status, statusText } = heatMapResponse || {};
 
@@ -131,6 +134,7 @@ export async function handler(req: Request): Promise<Response> {
     if (status !== HTTP_OK) {
       const msg = 'Internal server error ' + status + ' ' + statusText;
       console.warn(status, statusText);
+      console.warn(heatMapResponse);
       return new Response(msg, { status });
     }
 
@@ -156,9 +160,10 @@ export async function handler(req: Request): Promise<Response> {
  *
  * @param type - ride, winter, run, water
  */
-function heatURL(type = 'ride'): string {
-  return `https://heatmap-external-b.strava.com/tiles-auth/${type}/hot`;
-}
+// function heatURL(type = 'ride'): string {
+//   // return `https://heatmap-external-b.strava.com/tiles-auth/${type}/hot`;
+//   // return 'https://strava-heatmap.tiles.freemap.sk/ride/red/13/4532/2845.png';
+// }
 
 /**
  * Gets the z, y, and y parameters for the tile request.
