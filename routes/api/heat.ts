@@ -102,8 +102,7 @@ export async function handler(req: Request): Promise<Response> {
   }
 
   // for a valid request, we need the proper zoom level and coordinates
-  // const { z, x, y, type } = params;
-  const { z, x, y } = params;
+  const { z, x, y, type } = params;
   if (!(isNumber(z) && isNumber(x) && isNumber(y))) {
     console.warn('Bad request', req.url);
     return new Response('Bad request', { status: HTTP_BAD_REQUEST });
@@ -113,7 +112,7 @@ export async function handler(req: Request): Promise<Response> {
     // now we are ready to fetch the heatmap tile from the server
     const tile = `${z}/${x}/${y}`;
     // console.log('fetch tile', req.url);
-    const url = `https://strava-heatmap.tiles.freemap.sk/ride/red/${tile}.png`;
+    const url = `https://strava-heatmap.tiles.freemap.sk/${type}/red/${tile}.png`;
     // const url = `${heatURL(type)}/${tile}.png` +
     //   `?Key-Pair-Id=${KEY_PAIR_ID}` +
     //   `&Signature=${SIGNATURE}&Policy=${POLICY}`;
