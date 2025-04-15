@@ -87,10 +87,16 @@ export async function handler(req: Request): Promise<Response> {
 
   // we use the deno web cache to cache tiles, they can safely be
   // cached due to very infrequent changes to the heatmap tiles
-  const cachedResponse = await webCache.match(req);
-  if (cachedResponse) {
-    // console.log("cache hit", req.url);
-    return cachedResponse;
+  let cachedResponse;
+  try {
+    cachedResponse = await webCache.match(req);
+    if (cachedResponse) {
+      // console.log("cache hit", req.url);
+      return cachedResponse;
+    }
+  } catch (error) {
+    // eslint-disable-next-line
+    console.warn('Cache error', error);
   }
 
   // a tile is identified with x and y coordinates and a zoom level
